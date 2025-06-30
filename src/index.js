@@ -14,44 +14,27 @@ client.on('ready', (c) => {
   console.log(`🤖 Logged in as ${c.user.tag}`);
 });
 
-client.on('interactionCreate', (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isButton()) return;
+  await interaction.deferReply({ ephemeral: true });
 
-  const { commandName } = interaction;
-
-  if (commandName === 'embed') {
-    const embed = new EmbedBuilder()
-      .setTitle('Embed Title')
-      .setDescription('Embed Description')
-      .setColor(0xff5733)
-      .addFields(
-        {
-          name: 'Field 1',
-          value: 'This is the value of field 1',
-          inline: true,
-        },
-        { name: 'Field 2', value: 'This is the value of field 2', inline: true }
-      );
-    interaction.reply({ embeds: [embed] });
+  const role = interaction.guild.roles.cache.get(interaction.customId);
+  if (!role) {
+    interaction.editReply({ content: 'Role not found.' });
+    return;
   }
-});
 
-client.on('messageCreate', (message) => {
-  if (message.content === 'embed') {
-    const embed = new EmbedBuilder()
-      .setTitle('Embed Title')
-      .setDescription('Embed Description')
-      .setColor(0xff5733)
-      .addFields(
-        {
-          name: 'Field 1',
-          value: 'This is the value of field 1',
-          inline: true,
-        },
-        { name: 'Field 2', value: 'This is the value of field 2', inline: true }
-      );
-    message.channel.send({ embeds: [embed] });
+  const hasRole = interaction.member.roles.cache.has(role.id);
+  if (hasRole) {
+    await interaction.member.roles.remove(role);
+    await interaction.editReply(
+      `The role **${role}** has been removed from you.`
+    );
+    return;
   }
+
+  await interaction.member.roles.add(role);
+  await interaction.editReply(`The role **${role}** has been added to you.`);
 });
 
 client.login(process.env.TOKEN);
