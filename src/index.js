@@ -17,12 +17,13 @@ client.on('ready', (c) => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const { commandName } = interaction;
+  const { commandName, options } = interaction;
 
-  if (commandName === 'ping') {
-    await interaction.reply('Pong!');
-  } else if (commandName === 'beep') {
-    await interaction.reply('Boop!');
+  if (commandName === 'add') {
+    const firstNumber = options.getNumber('first-number');
+    const secondNumber = options.getNumber('second-number');
+    const sum = firstNumber + secondNumber;
+    await interaction.reply(`The sum is ${sum}`);
   } else {
     await interaction.reply({ content: 'Unknown command', ephemeral: true });
   }
