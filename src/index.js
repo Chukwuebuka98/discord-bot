@@ -14,11 +14,17 @@ client.on('ready', (c) => {
   console.log(`🤖 Logged in as ${c.user.tag}`);
 });
 
-client.on('messageCreate', (message) => {
-  if (message.author.bot) return; // Ignore messages from bots
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isCommand()) return;
 
-  if (message.content === 'hello' || message.content === 'hi') {
-    message.reply(`Hello ${message.author.username}! 👋`);
+  const { commandName } = interaction;
+
+  if (commandName === 'ping') {
+    await interaction.reply('Pong!');
+  } else if (commandName === 'beep') {
+    await interaction.reply('Boop!');
+  } else {
+    await interaction.reply({ content: 'Unknown command', ephemeral: true });
   }
 });
 
