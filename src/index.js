@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, IntentsBitField } = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
 
 const client = new Client({
   intents: [
@@ -14,18 +14,43 @@ client.on('ready', (c) => {
   console.log(`🤖 Logged in as ${c.user.tag}`);
 });
 
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
+client.on('interactionCreate', (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
 
-  const { commandName, options } = interaction;
+  const { commandName } = interaction;
 
-  if (commandName === 'add') {
-    const firstNumber = options.getNumber('first-number');
-    const secondNumber = options.getNumber('second-number');
-    const sum = firstNumber + secondNumber;
-    await interaction.reply(`The sum is ${sum}`);
-  } else {
-    await interaction.reply({ content: 'Unknown command', ephemeral: true });
+  if (commandName === 'embed') {
+    const embed = new EmbedBuilder()
+      .setTitle('Embed Title')
+      .setDescription('Embed Description')
+      .setColor(0xff5733)
+      .addFields(
+        {
+          name: 'Field 1',
+          value: 'This is the value of field 1',
+          inline: true,
+        },
+        { name: 'Field 2', value: 'This is the value of field 2', inline: true }
+      );
+    interaction.reply({ embeds: [embed] });
+  }
+});
+
+client.on('messageCreate', (message) => {
+  if (message.content === 'embed') {
+    const embed = new EmbedBuilder()
+      .setTitle('Embed Title')
+      .setDescription('Embed Description')
+      .setColor(0xff5733)
+      .addFields(
+        {
+          name: 'Field 1',
+          value: 'This is the value of field 1',
+          inline: true,
+        },
+        { name: 'Field 2', value: 'This is the value of field 2', inline: true }
+      );
+    message.channel.send({ embeds: [embed] });
   }
 });
 

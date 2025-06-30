@@ -3,50 +3,42 @@ const { REST, Routes, ApplicationCommandOptionType } = require('discord.js');
 
 const commands = [
   {
-    name: 'add',
-    description: 'Add a two numbers',
-    options: [
-      {
-        name: 'first-number',
-        description: 'The first number',
-        choices: [
-          {
-            name: 'One',
-            value: 1,
-          },
-          {
-            name: 'Two',
-            value: 2,
-          },
-          {
-            name: 'Three',
-            value: 3,
-          },
-        ],
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-      },
-      {
-        name: 'second-number',
-        description: 'The second number',
-        choices: [
-          {
-            name: 'One',
-            value: 1,
-          },
-          {
-            name: 'Two',
-            value: 2,
-          },
-          {
-            name: 'Three',
-            value: 3,
-          },
-        ],
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-      },
-    ],
+    name: 'embed',
+    description: 'Create an embed message',
+    // options: [
+    //   {
+    //     name: 'title',
+    //     description: 'The title of the embed',
+    //     type: ApplicationCommandOptionType.String,
+    //     required: true,
+    //   },
+    //   {
+    //     name: 'description',
+    //     description: 'The description of the embed',
+    //     type: ApplicationCommandOptionType.String,
+    //     required: true,
+    //   },
+    //   {
+    //     name: 'color',
+    //     description: 'The color of the embed',
+    //     type: ApplicationCommandOptionType.String,
+    //     required: true,
+    //     choices: [
+    //       {
+    //         name: 'Red',
+    //         value: 'RED',
+    //       },
+    //       {
+    //         name: 'Green',
+    //         value: 'GREEN',
+    //       },
+    //       {
+    //         name: 'Blue',
+    //         value: 'BLUE',
+    //       },
+    //     ],
+    //   },
+    // ],
   },
 ];
 
